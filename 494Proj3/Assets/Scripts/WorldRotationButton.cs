@@ -61,6 +61,7 @@ public class WorldRotationButton : MonoBehaviour {
                     degreesY -= Input.GetAxis("Mouse X") * speed;
                     transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, degreesY, 0);
                     World.S.transform.rotation = this.transform.rotation;
+                    World.S.StartToChangeWorldState();
                 }
             }
         } else if (current_state == RotationButtonState.ROTATING_MOUSE) {
@@ -94,6 +95,7 @@ public class WorldRotationButton : MonoBehaviour {
             transform.rotation = Quaternion.Euler(endAutoRotationValue);
             current_state = RotationButtonState.NORMAL;
             World.S.transform.rotation = this.transform.rotation;
+            World.S.ChangedWorldState();
         } else {
             Vector3 newRotation = Vector3.Lerp(startAutoRotationValue, endAutoRotationValue, t);
             transform.rotation = Quaternion.Euler(newRotation);
