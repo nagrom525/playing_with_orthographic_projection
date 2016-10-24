@@ -5,7 +5,7 @@ public enum Direction { LEFT, RIGHT, UP, DOWN};
 
 public class World : MonoBehaviour {
     enum WorldState { NORMAL, ROTATING, RUNNING_LEVEL, PAUSED}
-    enum WorldSideActive { NEG_X, POS_X, NEG_Y, POS_Y, NEG_Z, POS_Z}
+    enum WorldSideActive { NEG_Z, POS_Z, NEG_X, POS_X}
     public static World S;
     public float roationTime;
 

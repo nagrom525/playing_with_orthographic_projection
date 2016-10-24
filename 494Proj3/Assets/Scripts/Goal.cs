@@ -2,14 +2,25 @@
 using System.Collections;
 
 public class Goal : MonoBehaviour {
+    public AudioClip levelCompleteAudio;
+    public GameObject outterRing;
+    public GameObject middleRing;
+    public GameObject innerRing;
+    private AudioSource levelCompleteSrc;
+    private GameObject pinBallInstance;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    void Awake() {
+        levelCompleteSrc = this.GetComponent<AudioSource>();
+    }
+
+    void OnTriggerEnter(Collider other) {
+        if (other.gameObject.tag == "Pinball") {
+            // then the player has reached the goal
+        }
+    }
+
+    void turnOffRingRotation(GameObject ring) {
+        GoalRing goalRing = ring.GetComponent<GoalRing>();
+        goalRing.turn = false;
+    }
 }
