@@ -70,8 +70,8 @@ public class Ramp : MonoBehaviour {
                 Rigidbody rb = pinBallInstance.GetComponent<Rigidbody>();
                 SetRigidBodyMoving(rb);
             } else {
-                Rigidbody rb = pinBallInstance.GetComponent<Rigidbody>();
-                SetRigidBodyNotMoving(rb);
+                //Rigidbody rb = pinBallInstance.GetComponent<Rigidbody>();
+                //SetRigidBodyNotMoving(rb);
             }
         }
     }
@@ -90,14 +90,14 @@ public class Ramp : MonoBehaviour {
         if(other.gameObject.tag == "Pinball") {
             attachedPinball = false;
             pinBallInstance = null;
-            Vector3 oldPosition = pinBallInstance.transform.position;
+            Vector3 oldPosition = other.transform.localPosition;
             if(rampDirection == RampDirection.X && endOfRamp) {
                 if(current_side == World.WorldSideActive.POS_Z || current_side == World.WorldSideActive.NEG_Z) {
-                    pinBallInstance.transform.position = new Vector3(oldPosition.x, oldPosition.y, continueRapPos);
+                    other.transform.localPosition = new Vector3(oldPosition.x, oldPosition.y, continueRapPos);
                 }
-            } else {
+            } else if(rampDirection == RampDirection.Z && endOfRamp){
                 if (current_side == World.WorldSideActive.POS_X || current_side == World.WorldSideActive.NEG_X) {
-                    pinBallInstance.transform.position = new Vector3(continueRapPos, oldPosition.y, oldPosition.z);
+                    other.transform.localPosition = new Vector3(continueRapPos, oldPosition.y, oldPosition.z);
                 }
             }
             World.S.ownershipSwap -= OnOwnershipSwap;

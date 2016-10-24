@@ -55,7 +55,7 @@ public class World : MonoBehaviour {
     public void ChangedWorldState() {
         current_side = retrieveCurrentSide(this.transform.rotation.eulerAngles);
         if(OnSideChangeStarted != null) {
-            OnSideChangeStarted(current_side);
+            OnSideChangeComplete(current_side);
         }
     }
 
