@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Goal : MonoBehaviour {
     public AudioClip levelCompleteAudio;
     public GameObject outterRing;
     public GameObject middleRing;
+    public GameObject levelCompletePanel;
     public GameObject innerRing;
     private AudioSource levelCompleteSrc;
     private GameObject pinBallInstance;
@@ -16,11 +18,16 @@ public class Goal : MonoBehaviour {
     void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Pinball") {
             // then the player has reached the goal
+            levelCompletePanel.SetActive(true);
         }
     }
 
     void turnOffRingRotation(GameObject ring) {
         GoalRing goalRing = ring.GetComponent<GoalRing>();
         goalRing.turn = false;
+    }
+
+    public void restartLevel() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

@@ -51,27 +51,21 @@ public class Ramp : MonoBehaviour {
         }
     }
 
-    private void SetRigidBodyMoving(Rigidbody rb) {
-        rb.constraints = RigidbodyConstraints.None;
-    }
-
-    private void SetRigidBodyNotMoving(Rigidbody rb) {
-        rb.constraints = RigidbodyConstraints.FreezeAll;
-    }
+   
 
     void OnSideChanged(World.WorldSideActive side) {
         current_side = side;
         if (attachedPinball) {
             if ((current_side == World.WorldSideActive.NEG_X || current_side == World.WorldSideActive.POS_X) && (rampDirection == RampDirection.Z)) {
                 Rigidbody rb = pinBallInstance.GetComponent<Rigidbody>();
-                SetRigidBodyMoving(rb);
+                UtilityFunctions.SetRigidBodyMoving(rb);
 
             } else if((current_side == World.WorldSideActive.NEG_Z || current_side == World.WorldSideActive.POS_Z) && (rampDirection == RampDirection.X)) {
                 Rigidbody rb = pinBallInstance.GetComponent<Rigidbody>();
-                SetRigidBodyMoving(rb);
+                UtilityFunctions.SetRigidBodyMoving(rb);
             } else {
-                //Rigidbody rb = pinBallInstance.GetComponent<Rigidbody>();
-                //SetRigidBodyNotMoving(rb);
+                Rigidbody rb = pinBallInstance.GetComponent<Rigidbody>();
+                UtilityFunctions.SetRigidBodyNotMoving(rb);
             }
         }
     }
