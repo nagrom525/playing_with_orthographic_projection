@@ -50,11 +50,14 @@ public class WorldRotationButton : MonoBehaviour {
     void NormalMouseListening() {
         if (Input.GetMouseButton(0) && (current_state == RotationButtonState.NORMAL || current_state == RotationButtonState.ROTATING_MOUSE)) {
             // case that the user is actively rotating the wheel
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = new Ray();
+            ray.origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            ray.direction = Camera.main.transform.forward;
+            
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit)) {
                 WorldRotationButton button = hit.collider.gameObject.GetComponent<WorldRotationButton>();
-                if (button != null) {
+                if (button == this) {
                     // then the mouse key is clickd and it is also over the rotation button
                     current_state = RotationButtonState.ROTATING_MOUSE;
                     degreesY = this.transform.rotation.eulerAngles.y;

@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class Elevator : MonoBehaviour {
     public enum MoveableDirection { X, Y, Z}
     public MoveableDirection moveableDirection = MoveableDirection.X;
     public float maxDistance;
     public float minDistance;
+    public LayerMask elevatorLayerMask;
 
 	// Use this for initialization
 	void Start () {
@@ -17,10 +19,18 @@ public class Elevator : MonoBehaviour {
         if (Input.GetMouseButton(0)) {
             // case that the user is actively rotating the wheel
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit)) {
-                Elevator e = hit.collider.gameObject.GetComponent<Elevator>();
-                if (e != null) {
+            ray.origin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            ray.direction = Camera.main.transform.forward;
+            RaycastHit[] hit = Physics.RaycastAll(ray, 1000000.0f, elevatorLayerMask);
+            if (hit.Length != 0) {
+                bool elevatorHit = false;
+                for(int i = 0; i < hit.Length; ++i) {
+                    if(hit[i].collider.gameObject.GetComponent<Elevator>() == this) {
+                        elevatorHit = true;
+                        break;
+                    }
+                }
+                if (elevatorHit) {
                     Vector3 mousePosition = Input.mousePosition;
                     mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
                     if (moveableDirection == MoveableDirection.X) {
@@ -43,6 +53,9 @@ public class Elevator : MonoBehaviour {
             }
         }
     } 
+
+    void OnMouseOver() { 
+}
 
     void OnCollisionEnter(Collision other) {
         if(other.gameObject.tag == "Pinball") {
