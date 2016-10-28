@@ -8,9 +8,12 @@ public class Elevator : MonoBehaviour {
     public float maxDistance;
     public float minDistance;
     public LayerMask elevatorLayerMask;
+    public GameObject pinBallInstance;
+    public bool attachedPinball = false;
 
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
@@ -33,34 +36,53 @@ public class Elevator : MonoBehaviour {
                 if (elevatorHit) {
                     Vector3 mousePosition = Input.mousePosition;
                     mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+                    Vector3 movePosition = this.transform.position;
                     if (moveableDirection == MoveableDirection.X) {
                         if (World.S.current_side != World.WorldSideActive.POS_X && World.S.current_side != World.WorldSideActive.NEG_X) {
                             if (mousePosition.x < maxDistance && mousePosition.x > minDistance)
-                                this.transform.position = new Vector3(mousePosition.x, this.transform.position.y, this.transform.position.z);
+                                movePosition = new Vector3(mousePosition.x, this.transform.position.y, this.transform.position.z);
                         }
                     } else if (moveableDirection == MoveableDirection.Y) {
                         if (mousePosition.y < maxDistance && mousePosition.y > minDistance) {
-                            this.transform.position = new Vector3(this.transform.position.x, mousePosition.y, this.transform.position.z);
+                            movePosition = new Vector3(this.transform.position.x, mousePosition.y, this.transform.position.z);
                         }
                     } else {
                         if (World.S.current_side != World.WorldSideActive.POS_Z && World.S.current_side != World.WorldSideActive.NEG_Z) {
                             if (mousePosition.z < maxDistance && mousePosition.z > minDistance) {
-                                this.transform.position = new Vector3(this.transform.position.z, this.transform.position.y, mousePosition.z);
+                                movePosition = new Vector3(this.transform.position.z, this.transform.position.y, mousePosition.z);
                             }
                         }
+                    }
+                    Vector3 oldPosition = this.transform.position;
+                    this.transform.position = movePosition;
+                    if (attachedPinball) {
+                        pinBallInstance.transform.position += (movePosition - oldPosition);
                     }
                 }
             }
         }
-    } 
-
-    void OnMouseOver() { 
-}
+    }
 
     void OnCollisionEnter(Collision other) {
         if(other.gameObject.tag == "Pinball") {
             UtilityFunctions.SetRigidBodyNotMoving(other.gameObject.GetComponent<Rigidbody>());
             UtilityFunctions.SetRigidBodyMoving(other.gameObject.GetComponent<Rigidbody>());
+            World.S.TakeControlOfPinball(this.gameObject);
+            World.S.ownershipSwap += OnOwnershipSwap;
+            attachedPinball = true;
+            pinBallInstance = other.gameObject;
         }
     }
+
+    void OnCollisionExit(Collision other) {
+        attachedPinball = false;
+        pinBallInstance = null;
+
+    }
+
+    void OnOwnershipSwap(GameObject newOwner) {
+        attachedPinball = false;
+        pinBallInstance = null;
+    }
+
 }
