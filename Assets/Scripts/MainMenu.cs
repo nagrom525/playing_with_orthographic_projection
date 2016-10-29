@@ -7,6 +7,7 @@ public class MainMenu : MonoBehaviour {
     public GameObject levelSelect;
     public GameObject assetSources;
     public GameObject LevelRestartMenu;
+    public GameObject topMenu;
 
     public void Awake() {
 
@@ -20,6 +21,11 @@ public class MainMenu : MonoBehaviour {
 
     public void LoadScene(int level) {
         SceneManager.LoadScene(level);
+    }
+
+    public void LoadLevelSelectionMenu() {
+        levelSelect.SetActive(true);
+        topMenu.SetActive(false);
     }
 
     public void ShowAssetSources() {
