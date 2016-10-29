@@ -13,12 +13,15 @@ public class Goal : MonoBehaviour {
 
     void Awake() {
         levelCompleteSrc = this.GetComponent<AudioSource>();
+        levelCompleteSrc.clip = levelCompleteAudio;
     }
 
     void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Pinball") {
             // then the player has reached the goal
             levelCompletePanel.SetActive(true);
+            levelCompleteSrc.Play();
+            UtilityFunctions.SetRigidBodyNotMoving(other.gameObject.GetComponent<Rigidbody>());
         }
     }
 

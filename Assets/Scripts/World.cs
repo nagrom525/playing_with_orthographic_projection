@@ -127,7 +127,6 @@ public class World : MonoBehaviour {
                 Debug.Log("uh oh, something went wrong...");
                 return WorldSideActive.NEG_X;
         }
-        return WorldSideActive.NEG_X;
     }
 
     public void TakeControlOfPinball(GameObject newOwner) {

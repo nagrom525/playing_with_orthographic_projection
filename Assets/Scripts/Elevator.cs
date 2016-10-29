@@ -2,23 +2,16 @@
 using System.Collections;
 
 
-public class Elevator : MonoBehaviour {
+public class Elevator : WorldRotationObject {
     public enum MoveableDirection { X, Y, Z}
     public MoveableDirection moveableDirection = MoveableDirection.X;
     public float maxDistance;
     public float minDistance;
     public LayerMask elevatorLayerMask;
-    public GameObject pinBallInstance;
-    public bool attachedPinball = false;
-
-
-    // Use this for initialization
-    void Start () {
-	
-	}
 	
 	// Update is called once per frame
-	void Update () {
+	protected override void Update () {
+        base.Update();
         if (Input.GetMouseButton(0)) {
             // case that the user is actively rotating the wheel
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -63,26 +56,12 @@ public class Elevator : MonoBehaviour {
         }
     }
 
-    void OnCollisionEnter(Collision other) {
+    protected override void OnCollisionEnter(Collision other) {
+        base.OnCollisionEnter(other);
         if(other.gameObject.tag == "Pinball") {
             UtilityFunctions.SetRigidBodyNotMoving(other.gameObject.GetComponent<Rigidbody>());
             UtilityFunctions.SetRigidBodyMoving(other.gameObject.GetComponent<Rigidbody>());
-            World.S.TakeControlOfPinball(this.gameObject);
-            World.S.ownershipSwap += OnOwnershipSwap;
-            attachedPinball = true;
-            pinBallInstance = other.gameObject;
         }
-    }
-
-    void OnCollisionExit(Collision other) {
-        attachedPinball = false;
-        pinBallInstance = null;
-
-    }
-
-    void OnOwnershipSwap(GameObject newOwner) {
-        attachedPinball = false;
-        pinBallInstance = null;
     }
 
 }

@@ -6,14 +6,14 @@ public class WorldRotationButton : MonoBehaviour {
     public float speed = 1.0f;
     public float rotationCutoff = 25.0f;
     public float fullRotationTime = 1.0f;
+    private AudioSource rotateAudioSrc;
+    public AudioClip rotateAudioClip;
 
     /////////////////////////////////////////
 
 
     private float degreesY;
     private RotationButtonState current_state = RotationButtonState.NORMAL;
-    private Quaternion rotationStart;
-    private Quaternion rotationEnd;
     private Vector3 prevBaseRotation;
 
     // handle the auto rotation after the user lets go of the wheel
@@ -24,6 +24,7 @@ public class WorldRotationButton : MonoBehaviour {
 
     void Awake() {
         prevBaseRotation = this.transform.rotation.eulerAngles;
+        rotateAudioSrc = this.GetComponent<AudioSource>();
     }
 
     // Use this for initialization
@@ -83,6 +84,8 @@ public class WorldRotationButton : MonoBehaviour {
             } else {
                 endAutoRotationValue.y = Mathf.Ceil(transform.rotation.eulerAngles.y / 90) * 90;
             }
+            rotateAudioSrc.clip = rotateAudioClip;
+            rotateAudioSrc.Play();
           
             startAutoRotationValue = transform.rotation.eulerAngles;
             autoRotationStartTime = Time.time;
