@@ -67,6 +67,7 @@ public class WorldRotationObject : MonoBehaviour {
             Vector3 oldPosition = other.transform.localPosition;
             // if continue on rotation
             if (continueActive) {
+                print("Exiting: " + this.gameObject.name);
                 if (current_side == World.WorldSideActive.POS_Z || current_side == World.WorldSideActive.NEG_Z) {
                     other.transform.localPosition = new Vector3(oldPosition.x, oldPosition.y, continuePosZ);
                 } else {
