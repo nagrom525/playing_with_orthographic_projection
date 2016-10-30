@@ -18,6 +18,8 @@ public class World : MonoBehaviour {
     public WorldState current_state;
     public WorldSideActive current_side;
 
+    public GameObject restartPanel;
+
 
     void Awake() {
         if(S != null) {
@@ -41,7 +43,9 @@ public class World : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            GameCanvasNavigation.S.OpenWindow();
+        }
 	}
 
 

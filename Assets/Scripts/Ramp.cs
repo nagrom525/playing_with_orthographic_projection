@@ -23,4 +23,9 @@ public class Ramp : WorldRotationObject {
             }
         }
     }
+
+    protected override void OnCollisionEnter(Collision other) {
+        base.OnCollisionEnter(other);
+        OnSideChanged(current_side);
+    }
 }

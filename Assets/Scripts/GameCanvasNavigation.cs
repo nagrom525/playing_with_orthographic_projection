@@ -10,9 +10,16 @@ public class GameCanvasNavigation : MonoBehaviour {
     private int sceneIndex;
     private int numScenes;
 
+    public static GameCanvasNavigation S;
+
     void Awake() {
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
         numScenes = SceneManager.sceneCountInBuildSettings;
+        if(S != null) {
+            Debug.Log("Instance of game canvas navigation already set");
+        } else {
+            S = this;
+        }
     }
 	// Use this for initialization
 	void Start () {
@@ -40,6 +47,11 @@ public class GameCanvasNavigation : MonoBehaviour {
     public void ReloadLevel() {
         CloseWindow();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void OpenWindow() {
+        Time.timeScale = 0;
+        restartPanel.SetActive(true);
     }
 
     public void CloseWindow() {
