@@ -35,4 +35,8 @@ public class MainMenu : MonoBehaviour {
     public void CloseAssetSources() {
         assetSources.SetActive(false);
     }
+
+    public void ExitGame() {
+        Application.Quit();
+    }
 }
