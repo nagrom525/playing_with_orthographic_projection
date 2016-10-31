@@ -8,9 +8,27 @@ public class Elevator : WorldRotationObject {
     public float maxDistance;
     public float minDistance;
     public LayerMask elevatorLayerMask;
-	
-	// Update is called once per frame
-	protected override void Update () {
+
+
+    protected override void Start() {
+        base.Start();
+        switch (moveableDirection) {
+            case MoveableDirection.X:
+                maxDistance += transform.position.x;
+                minDistance += transform.position.x;
+                break;
+            case MoveableDirection.Y:
+                maxDistance += transform.position.y;
+                minDistance += transform.position.y;
+                break;
+            case MoveableDirection.Z:
+                maxDistance += transform.position.z;
+                maxDistance += transform.position.z;
+                break;
+        }
+    }
+    // Update is called once per frame
+    protected override void Update () {
         base.Update();
         if (Input.GetMouseButton(0)) {
             // case that the user is actively rotating the wheel
