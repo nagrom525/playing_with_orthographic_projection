@@ -8,10 +8,13 @@ public class Acclerator : MonoBehaviour {
    public Vector3 direction;
 
     private bool triggered;
+    private SpriteRenderer spriteRend;
 
 	// Use this for initialization
 	void Start () {
-        World.S.OnSideChangeComplete += OnSideChanged; 
+        World.S.OnSideChangeComplete += OnSideChanged;
+        World.S.OnSideChangeStarted += OnSideChangeStarted;
+        spriteRend = this.GetComponent<SpriteRenderer>();
     }
 	
 	// Update is called once per frame
@@ -40,5 +43,19 @@ public class Acclerator : MonoBehaviour {
 
     void OnSideChanged(World.WorldSideActive side) {
         currentSideActive = side;
+        if (currentSideActive == sideArrowActive) {
+            spriteRend.enabled = true;
+        } else {
+            spriteRend.enabled = false;
+        }
+    }
+
+    void OnSideChangeStarted(World.WorldSideActive side) {
+        if (currentSideActive == sideArrowActive) {
+            spriteRend.enabled = true;
+        } else {
+            spriteRend.enabled = false;
+        }
+        print(side);
     }
 }
