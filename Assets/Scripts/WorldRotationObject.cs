@@ -50,32 +50,48 @@ public class WorldRotationObject : MonoBehaviour {
         current_side = side;
     }
 
-    protected virtual void OnCollisionEnter(Collision other) {
-        if (other.gameObject.tag == "Pinball") {
+    private void PinballControl(GameObject gameObject) {
+        if (gameObject.tag == "Pinball") {
             attachedPinball = true;
-            pinBallInstance = other.gameObject;
+            pinBallInstance = gameObject;
             OnSideChanged(current_side);
             World.S.TakeControlOfPinball(this.gameObject);
             World.S.ownershipSwap += OnOwnershipSwap;
         }
     }
 
-    protected virtual void OnCollisionExit(Collision other) {
-        if (other.gameObject.tag == "Pinball") {
+    private void PinballRelease(GameObject gameObject) {
+        if (gameObject.tag == "Pinball") {
             attachedPinball = false;
             pinBallInstance = null;
-            Vector3 oldPosition = other.transform.localPosition;
+            Vector3 oldPosition = gameObject.transform.localPosition;
             // if continue on rotation
             if (continueActive) {
                 print("Exiting: " + this.gameObject.name);
                 if (current_side == World.WorldSideActive.POS_Z || current_side == World.WorldSideActive.NEG_Z) {
-                    other.transform.localPosition = new Vector3(oldPosition.x, oldPosition.y, continuePosZ);
+                    gameObject.transform.localPosition = new Vector3(oldPosition.x, oldPosition.y, continuePosZ);
                 } else {
-                    other.transform.localPosition = new Vector3(continuePosX, oldPosition.y, oldPosition.z);
+                    gameObject.transform.localPosition = new Vector3(continuePosX, oldPosition.y, oldPosition.z);
                 }
             }
             World.S.ownershipSwap -= OnOwnershipSwap;
         }
+    }
+
+    protected virtual void OnCollisionEnter(Collision other) {
+        PinballControl(other.gameObject);
+    }
+
+    protected virtual void OnCollisionExit(Collision other) {
+        PinballRelease(other.gameObject);
+    }
+
+    protected virtual void OnTriggerEnter(Collider other) {
+        PinballControl(other.gameObject);
+    }
+
+    protected virtual void OnTriggerExit(Collider other) {
+        PinballRelease(other.gameObject);
     }
 
     protected virtual void OnOwnershipSwap(GameObject newOwner) {

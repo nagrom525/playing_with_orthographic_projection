@@ -12,15 +12,11 @@ public class Acclerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        World.S.OnSideChangeComplete += OnSideChanged;
-        World.S.OnSideChangeStarted += OnSideChangeStarted;
         spriteRend = this.GetComponent<SpriteRenderer>();
+        World.S.OnSideChangeStarted += OnSideChangeStarted;
+        World.S.OnSideChangeComplete += OnSideChanged;
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
 
     void OnTriggerStay(Collider other) {
         if (other.gameObject.tag == "Pinball") {
@@ -32,16 +28,19 @@ public class Acclerator : MonoBehaviour {
         }
     }
 
-    void OnTriggerExit(Collider other) {
+  void OnTriggerExit(Collider other) {
         triggered = false;
     }
+
+
 
     void AcceleratePlayer(GameObject player) {
         UtilityFunctions.SetRigidBodyMoving(player.GetComponent<Rigidbody>());
         player.GetComponent<Rigidbody>().AddForce(force * direction);
     }
 
-    void OnSideChanged(World.WorldSideActive side) {
+   void OnSideChanged(World.WorldSideActive side) {
+ 
         currentSideActive = side;
         if (currentSideActive == sideArrowActive) {
             spriteRend.enabled = true;
