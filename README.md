@@ -5,15 +5,15 @@ This is a little game developed in Unity (C#) that I worked on over a weekend fo
 ## Concept
 
 * I was mostly messing around with Orthographic Projections, and seeing what cool effects I could get out of that.
-* I was more or less inspired by Monument Valley, but with obviously much less time and resources than what was pourn into that game I tried to mess a round with some cool little puzzles.
+* I was more or less inspired by Monument Valley, but with obviously much less time and resources than what was poured into that game I tried to mess around with some cool little puzzles.
 
 ## How to Open / Play
 
 ### Windows
 
-1. Download the release 7z and unzip it with all it's contents into the same folder.
-2. Run the .exe and select your resoultion.
-3. Your good to go! There will be a little tutorial to get you starte.
+1. Download the release 7z and unzip it with all its contents into the same folder.
+2. Run the .exe and select your resolution.
+3. Your good to go! There will be a little tutorial to get you started.
 
 ### Mac
 
@@ -46,4 +46,4 @@ This is a little game developed in Unity (C#) that I worked on over a weekend fo
 #### World Rotation Sound
 ##### Adharca
 * http://www.freesound.org/people/adharca/sounds/275521/adharca
-* Creative Comons 0
+* Creative Commons 0
